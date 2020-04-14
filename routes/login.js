@@ -1,5 +1,14 @@
+//#region /* Mongo DB */
+let UserModel = require('../database/users.model');
+const mongoose = require('mongoose');
+const User = mongoose.model('users');
+//#endregion
+
 var express = require('express');
 var router = express.Router();
+
+require('./register');
+
 //#region /* SESSION */
 const session = require('express-session');
 var sess ;
@@ -13,11 +22,23 @@ router.use(session({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('login', { title: 'YouStar' });
+    // IF SESSION EXISTS
+    if(req.session){
+      res.redirect('/main');
+    }
+    else{ // IF SESSION DOES NOT EXIST
+      res.redirect('/login');
+    }
 });
+
+
 router.get('/login', function(req, res, next) {
   res.render('login', { title: 'YouStar' });
 });
+
+router.get('/main', function(req, res, next){
+  res.render('main', { title : 'YouStar' });
+})
 
 /* USER SEND LOGIN INFO TO SERVER. */
 router.post('/login_user',(req,res)=>{
@@ -61,7 +82,7 @@ function FindUserInfo(req, res){
                   users : req.body
                 });
     } 
-       
+      
   });
 }
 
@@ -71,7 +92,7 @@ router.get('/register', function(req, res, next) {
     title:'YouStar'});
 });
 
-var RegisterRouter = require('./register');
+
 
 module.exports = router;
 

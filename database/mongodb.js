@@ -1,7 +1,7 @@
 /* MongoDB - mongoose */
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/mydb',
+mongoose.connect('mongodb://localhost:27017/enterprise-app',
 {
   useNewUrlParser : true,
   useUnifiedTopology : true
@@ -15,4 +15,7 @@ mongoose.connect('mongodb://localhost:27017/mydb',
     }
 });
 
+
+
 require('./users.model');
+module.exports = mongoose;

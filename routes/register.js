@@ -1,47 +1,55 @@
-var express = require('express');
-var router = express.Router();
+
 //#region /* Mongo DB */
-require('./database/mongodb');
+let UserModel = require('../database/users.model');
 const mongoose = require('mongoose');
 const User = mongoose.model('users');
 //#endregion
+var express = require('express');
+var router = express.Router();
+require('./login');
+
+
 
 /* GET home page. */
 router.get('/register', function(req, res, next) {
+  console.log("hi");
   res.render('register', { title: 'YouStar' });
 });
 
 /* GET LOGIN PAGE. */
 router.get('/login', function(req, res, next) {
-  res.render('login',{
-    title:'YouStar'});
+  res.render('login',{title:'YouStar'});
 });
 
 /* USER SEND REGISTER INFO TO SERVER. */
-router.post('/register_user',(req,res)=>{
+router.post('/register/register_user',(req,res)=>{
+  // console.log(res);
   insertUserInfo(req, res);
+
 })
 
 
-function xinsertUserInfo(req, res){
+function insertUserInfo(req, res){
   console.log("this is insert user info");
+
   var users = new User();
+
   users.user_fullname = req.body.user_fullname;
   users.user_email = req.body.user_email;
   users.user_password = req.body.user_password;
   users.user_confPassword = req.body.user_confPw;
 
+  console.log(users);
   emailRegex = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
   console.log(req.body.user_password);
   console.log(req.body.user_confPw);
-  if(emailRegex.test( req.body.user_email))
+  if(emailRegex.test(req.body.user_email))
   {
    console.log("email ok")
   }
   else{
     req.body.user_emailError = "Invalid Email!";
     return res.render('register',{
-      
       title:'YouStar',
       users : req.body
     });
@@ -54,7 +62,7 @@ function xinsertUserInfo(req, res){
       users : req.body
     });
   }
-  else if( req.body.user_password.length < 8){
+  else if( req.body.user_confPw.length < 8){
     req.body.user_confPasswordError =  "Password does not match";
     return res.render('register',{
       
@@ -65,14 +73,11 @@ function xinsertUserInfo(req, res){
   else if(req.body.user_password != req.body.user_confPw){
     req.body.user_confPasswordError =  "Password does not match";
     return res.render('register',{
-      
       title:'YouStar',
       users : req.body
     });
   }
 
-
-  console.log(req.body);
   var user = User.findOne({user_email:req.body.user_email}, function(err, resp){
     console.log("hereee!");
     console.log(resp)
@@ -80,8 +85,9 @@ function xinsertUserInfo(req, res){
       console.log("save data");      
       return users.save((err, doc)=>{     
                 console.log("You Signed Up Successfully");
-                res.redirect('/login');
+                res.render('login',{ title:'YouStar'});
               });
+              
     }
     if(user && resp.user_password == req.body.user_password ){
       req.body.user_emailError = "Email already exists!";

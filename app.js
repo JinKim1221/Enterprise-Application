@@ -10,7 +10,6 @@ var mainRouter = require('./routes/main');
 
 //#region /* Mongo DB */
 require('./database/mongodb');
-const mongoose = require('mongoose');
 //#endregion
 
 
@@ -34,7 +33,9 @@ const port = 3000;
 server.listen(port,  hostname || process.env.IP, () => console.log(`The app listening on port at http://${hostname}:${port}/ `))
 
 app.use('/', loginRouter);
-app.use('/main', loginRouter);
+app.use('/', registerRouter);
+app.use('/main', mainRouter);
+
 
 
 
