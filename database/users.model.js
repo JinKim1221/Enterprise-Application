@@ -18,6 +18,10 @@ var userSchema = new mongoose.Schema({
         type : String, 
         required: "This field is required"
     },
+    user_post :[{
+        post_title : String,
+        post_content : String,
+    }],
     register_time : {
         type:Date, 
         default:Date.now

@@ -34,7 +34,7 @@ server.listen(port,  hostname || process.env.IP, () => console.log(`The app list
 
 app.use('/', loginRouter);
 app.use('/', registerRouter);
-app.use('/main', mainRouter);
+app.use('/', mainRouter);
 
 
 

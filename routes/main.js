@@ -13,15 +13,8 @@ router.get('/main', function(req, res, next) {
 });
 
 
-router.get('/logout', function(req, res, next) {
-  req.session.destroy((err) => {
-    if(err){
-      res.negotiate(err);
-    }
-    console.log(session.id + "destroyed");
-  });
-  res.redirect('/');
-});
-
+router.post('/main/add-post',function(req, res, next){
+  console.log(req.body);
+})
 
 module.exports = router;

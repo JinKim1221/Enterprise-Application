@@ -23,14 +23,23 @@ router.use(session({
 /* GET home page. */
 router.get('/', function(req, res, next) {
     // IF SESSION EXISTS
-    if(req.session){
-      res.redirect('/main');
-    }
-    else{ // IF SESSION DOES NOT EXIST
+    // if(req.session){
+    //   res.redirect('/main');
+    // }
+    // else{ // IF SESSION DOES NOT EXIST
       res.redirect('/login');
-    }
+    // }
 });
 
+router.get('/logout', function(req, res, next) {
+  req.session.destroy((err) => {
+    if(err){
+      res.negotiate(err);
+    }
+    console.log(session.id + "destroyed");
+  });
+  res.redirect('/');
+});
 
 router.get('/login', function(req, res, next) {
   res.render('login', { title: 'YouStar' });

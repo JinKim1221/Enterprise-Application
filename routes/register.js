@@ -25,7 +25,6 @@ router.get('/login', function(req, res, next) {
 router.post('/register/register_user',(req,res)=>{
   // console.log(res);
   insertUserInfo(req, res);
-
 })
 
 
