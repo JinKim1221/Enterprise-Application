@@ -15,17 +15,46 @@
     <body class="home page-template-default page page-id-7 wp-embed-responsive theme-blogxer woocommerce-js header-style-1 footer-style-1 no-sidebar right-sidebar product-grid-view elementor-default elementor-page elementor-page-7 top">
     
     <div class="header">
-        <h1> Welcome <b>{{users.user_fullname}}</h1>
+        <h1> Welcome, <b> {{username}} </b></h1>
         <p> Record you daily life on YouStar <span class="glyphicon glyphicon-comment"></span></p>
     </div>
     <div id="add-post-div" class="container">
         {{!-- <input id="add-post-input" value="Add Post" type="submit"> --}}
         <a href=# id="add-post-a" class=" glyphicon glyphicon-pencil" type="submit"> ADD POST</a>
+        
+        <a href='/logout' id="logout-a" class="glyphicon glyphicon-log-out" type="submit"> LOG OUT</a>
     </div>
     
     <div id="displaying-posts" class="box">
         <div class="container">
             <div class="row">
+                
+                {{#post_info}}
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                
+                        <div class="box-part text-center">
+                            
+                            <i class="fa fa-instagram fa-3x" aria-hidden="true"></i>
+                            
+                            <div class="title">
+                                <h4> {{this.post_title}} </h4>
+                            </div>
+                            
+                            <div class="text">
+                                <span>{{this.post_content}}</span>
+                            </div>
+                            
+                            {{!-- <form method="POST" action="/main/read_mroe" > --}}
+                                {{!-- <span name="post_id" style="display: none;"> {{this._id}} </span> --}}
+                                <a href='/main/read_more?post_id={{this._id}}' type="submit"> Read More</a>
+                            {{!-- </form> --}}
+                            
+                        </div>
+                    </div>	 
+                {{/post_info}}
+                
+                
+                <!--example -->
 			    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                
 					<div class="box-part text-center">
@@ -44,104 +73,11 @@
                         
 					 </div>
 				</div>	 
-				
-				 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-               
-					<div class="box-part text-center">
-					    
-					    <i class="fa fa-twitter fa-3x" aria-hidden="true"></i>
-                    
-						<div class="title">
-							<h4>Twitter</h4>
-						</div>
-                        
-						<div class="text">
-							<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-						</div>
-                        
-						<a href="#">Learn More</a>
-                        
-					 </div>
-				</div>	 
-				
-				 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-               
-					<div class="box-part text-center">
-                        
-                        <i class="fa fa-facebook fa-3x" aria-hidden="true"></i>
-                        
-						<div class="title">
-							<h4>Facebook</h4>
-						</div>
-                        
-						<div class="text">
-							<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-						</div>
-                        
-						<a href="#">Learn More</a>
-                        
-					 </div>
-				</div>	 
-				
-				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-               
-					<div class="box-part text-center">
-                        
-                        <i class="fa fa-pinterest-p fa-3x" aria-hidden="true"></i>
-                        
-						<div class="title">
-							<h4>Pinterest</h4>
-						</div>
-                        
-						<div class="text">
-							<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-						</div>
-                        
-						<a href="#">Learn More</a>
-                        
-					 </div>
-				</div>	 
-				
-				 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-               
-					<div class="box-part text-center">
-					    
-					    <i class="fa fa-google-plus fa-3x" aria-hidden="true"></i>
-                    
-						<div class="title">
-							<h4>Google</h4>
-						</div>
-                        
-						<div class="text">
-							<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-						</div>
-                        
-						<a href="#">Learn More</a>
-                        
-					 </div>
-				</div>	 
-				
-				 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-               
-					<div class="box-part text-center">
-                        
-                        <i class="fa fa-github fa-3x" aria-hidden="true"></i>
-                        
-						<div class="title">
-							<h4>Github</h4>
-						</div>
-                        
-						<div class="text">
-							<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-						</div>
-                        
-						<a href="#">Learn More</a>
-                        
-					 </div>
-				</div>	
+
             </div>		
         </div>
     </div>
+
 
     
     <div id="back-to-list-div" class="container">
@@ -159,13 +95,13 @@
                       <!-- TITLE -->
                       <div class="form-group label-floating">
                         <label class="control-label"> TITLE </label>
-                        <input class="form-control" id="post-title" name='post-title' type="text" required data-error="Please enter your message subject">
+                        <input class="form-control" id="post-title" name='post_title' type="text" required data-error="Please enter your message subject">
                         <div class="help-block with-errors"></div>
                       </div>
                       <!-- CONTENT -->
                       <div class="form-group label-floating">
                           <label for="message" class="control-label">BODY</label>
-                          <textarea class="form-control" id="post-content" name='post-content' required data-error="Write your message"></textarea>
+                          <textarea class="form-control" id="post-content" name='post_content' required data-error="Write your message"></textarea>
                           <div class="help-block with-errors"></div>
                       </div>
 
@@ -178,8 +114,16 @@
                   </form>
                 </div>
             </div>
-        </div>
+    </div>
         
+    <div id="a_post" class ="container" style="display: none;">
+        <form method="GET" action="/read_more">
+            {{post.post_title}}
+
+
+            {{post.post_content}}
+        </form>
+    </div>
 
 
     <script type="text/javascript" src="/javascripts/main.js"></script>

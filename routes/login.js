@@ -8,7 +8,7 @@ var express = require('express');
 var router = express.Router();
 
 require('./register');
-
+require('./main');
 //#region /* SESSION */
 const session = require('express-session');
 var sess ;
@@ -23,20 +23,20 @@ router.use(session({
 /* GET home page. */
 router.get('/', function(req, res, next) {
     // IF SESSION EXISTS
-    // if(req.session){
-    //   res.redirect('/main');
-    // }
-    // else{ // IF SESSION DOES NOT EXIST
+    if(req.session){
+      res.redirect('/main');
+    }
+    else{ // IF SESSION DOES NOT EXIST
       res.redirect('/login');
-    // }
+    }
 });
 
 router.get('/logout', function(req, res, next) {
-  req.session.destroy((err) => {
+  req.session.destroy((err) => { 
     if(err){
       res.negotiate(err);
     }
-    console.log(session.id + "destroyed");
+    console.log(" session destroyed");
   });
   res.redirect('/');
 });
@@ -46,8 +46,27 @@ router.get('/login', function(req, res, next) {
 });
 
 router.get('/main', function(req, res, next){
-  res.render('main', { title : 'YouStar' });
-})
+
+  sessionEmail = req.session.email;
+
+  if(req.session.email) {
+    var userInfo = User.findOne({user_email:sessionEmail}, function(err, resp){
+      console.log(sessionEmail + " is online? ");
+      
+      res.render('main',{
+        title:'YouStar',
+        username : resp.user_fullname,
+        post_info : resp.user_posts
+      });
+      
+    });
+  }else{
+    res.render('login',{
+      title:'YouStar'
+    });
+  }
+
+});
 
 /* USER SEND LOGIN INFO TO SERVER. */
 router.post('/login_user',(req,res)=>{
@@ -68,8 +87,8 @@ function FindUserInfo(req, res){
     if(resp == null){
       req.body.user_invalidAccountError = "Invalid email or password. Try again";
 
-      req.session.err = 'Check your id or password'
       sess = loginEmail;
+      
       return res.render('login',{
                   title:'YouStar',
                   users : req.body
@@ -77,14 +96,14 @@ function FindUserInfo(req, res){
 
     }
     if(resp.user_email==loginEmail && resp.user_password == loginPw){
-      console.log("Log in successful!");     
+      console.log("Log in successful!");   
+
       return res.redirect('/main');
     }
     else if(resp.user_email !=loginEmail || resp.user_password != loginPw){
 
       req.body.user_invalidAccountError = "Invalid email or password. Try again";
 
-      req.session.err = 'Check your id or password'
       sess = loginEmail;
       return res.render('login',{
                   title:'YouStar',

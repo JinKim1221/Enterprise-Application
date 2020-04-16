@@ -18,7 +18,7 @@ var userSchema = new mongoose.Schema({
         type : String, 
         required: "This field is required"
     },
-    user_post :[{
+    user_posts :[{
         post_title : String,
         post_content : String,
     }],

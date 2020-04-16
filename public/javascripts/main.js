@@ -8,14 +8,15 @@ add_post_a.addEventListener('click', function(e){
     displaying_posts.style.display='none';
     add_post_a.style.display='none';
     writing_posts.style.display='block';
+   
 });
 
-post_input.addEventListener('click', function(e){
-    writing_posts.style.display='none';
-    displaying_posts.style.display='block';
-    add_post_a.style.display='block'; 
-    back_to_list.style.display='block';
-});
+// post_input.addEventListener('click', function(e){
+//     writing_posts.style.display='none';
+//     displaying_posts.style.display='block';
+//     add_post_a.style.display='block'; 
+//     back_to_list.style.display='block';
+// });
 
 back_to_list.addEventListener('click', function(e){
     writing_posts.style.display='none';

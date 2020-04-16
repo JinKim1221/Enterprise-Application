@@ -19,6 +19,12 @@ font-size: 30px;
     float: right;
 }
 
+#logout-a{
+    margin-top: 5%;
+
+    float: left;
+}
+
 #back-to-list{
     float: right;
     margin-top: 2%;
