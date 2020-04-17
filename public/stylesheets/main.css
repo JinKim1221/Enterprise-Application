@@ -19,15 +19,17 @@ font-size: 30px;
     float: right;
 }
 
+#back-to-list {
+    margin-top: 5%;
+
+    float: right;
+}
+
+
 #logout-a{
     margin-top: 5%;
 
     float: left;
-}
-
-#back-to-list{
-    float: right;
-    margin-top: 2%;
 }
 
 #post-content{
@@ -45,10 +47,15 @@ font-size: 30px;
     box-shadow: none
 }
 
-.btn.btn-common{
+#post-input{
     padding: 2%;
     font-size: 15px;
-}
+} 
+ 
+/* #search{
+    padding: 2%;
+    font-size: 15px;
+}  */
 
 .control-label{
     font-size: 18px;

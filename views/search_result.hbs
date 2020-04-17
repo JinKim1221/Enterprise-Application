@@ -19,17 +19,38 @@
         <p> Record you daily life on YouStar <span class="glyphicon glyphicon-comment"></span></p>
     </div>
     <div id="add-post-div" class="container">
-        {{!-- <input id="add-post-input" value="Add Post" type="submit"> --}}
-        <a href=# id="add-post-a" class=" glyphicon glyphicon-pencil" type="submit" style="display: none;"> ADD POST</a>
+            
+        <!-- BACK TO LIST -->
         <a href='/main' id="back-to-list" class="glyphicon glyphicon-arrow-left"> BACK TO LIST </a>
+       
         <a href='/logout' id="logout-a" class="glyphicon glyphicon-log-out" type="submit"> LOG OUT</a>
     </div>
-    
-    <div id="displaying-posts" class="box" style="display: none;">
+
+    <div class="box">
+        <form action="/main/search-post" method="post" id="search_post">
+            <!-- Form Submit -->
+            <div class="form-submit mt-5" style="text-align: center;">
+                <input name="searching_post" id="searching_post">
+                <button class="btn btn-common" type="submit" id="search"> SEARCH POST <span class="glyphicon glyphicon-search"></span></button>
+                <div id="msgSubmit" class="h3 text-center hidden"></div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+    </div>
+        
+    <div id="displaying-posts" class="box">
         <div class="container">
-            <div class="row">
-                
-                {{#post_info}}
+            <div class="row">   
+                {{#no_result}}
+                    <div  style="text-align: center;">
+                        <div class="box-part text-center">
+                            
+                            <h1>{{this}}</h1>
+                        </div>
+                    </div>
+                {{/no_result}}
+
+                {{#search_result}}
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 
                         <div class="box-part text-center">
@@ -37,56 +58,22 @@
                             <i class="fa fa-instagram fa-3x" aria-hidden="true"></i>
                             
                             <div class="title">
-                                <h4> {{this.post_title}} </h4>
+                                <h3> {{this.post_title}} </h3>
                             </div>
                             
                             <div class="text">
                                 <span>{{this.post_content}}</span>
                             </div>
                             
-                            {{!-- <form method="POST" action="/main/read_mroe" > --}}
-                                {{!-- <span name="post_id" style="display: none;"> {{this._id}} </span> --}}
-                                <a href='/main/read_more?post_id={{this._id}}' type="submit"> Read More</a>
-                            {{!-- </form> --}}
-                            
+                            <a class="read_more" href='/main/read_more?post_id={{this._id}}' type="submit"> Read More</a>                            
                         </div>
                     </div>	 
-                {{/post_info}}
-                <div class="pagination"> </div>
+                {{/search_result}}
+
             </div>		
         </div>
     </div>
-
-
-
-
-
-    <div id="a_post" class ="box" >
-        <div class="container">
-            <div class="col-md-12 wow animated fadeInRight" data-wow-delay=".2s">
-                      <!-- TITLE -->
-                    <div class="title">
-                       <h2>{{post.post_title}} </h2>
-                    </div>
-
-                      <!-- CONTENT -->
-                    <div class="text">
-                        <span>{{post.post_content}}</span>
-                    </div>
-
-
-                    <div class="text">
-                        <a href='/main/edit-post?post_id={{post._id}}' class='glyphicon glyphicon-edit'> edit </a>
-                    </div>
-
-                    <div class="text">
-                        <a href='/main/delete-post?post_id={{post._id}}' class='glyphicon glyphicon-trash'> delete </a>
-                    </div>
-
-            </div>
-        </div>            
-    </div>
-
+        
 
     <script type="text/javascript" src="/javascripts/main.js"></script>
         

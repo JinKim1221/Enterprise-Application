@@ -21,10 +21,28 @@
     <div id="add-post-div" class="container">
         {{!-- <input id="add-post-input" value="Add Post" type="submit"> --}}
         <a href=# id="add-post-a" class=" glyphicon glyphicon-pencil" type="submit"> ADD POST</a>
-        
+        <a href='/main' id="back-to-list" class="glyphicon glyphicon-arrow-left" style="display: none;"> BACK TO LIST </a>
         <a href='/logout' id="logout-a" class="glyphicon glyphicon-log-out" type="submit"> LOG OUT</a>
     </div>
-    
+
+    <div class="box" id="search_post">
+        <div class="container">
+            <div class="col-md-12 wow animated fadeInRight" data-wow-delay=".2s">
+                <form class="card card-sm" action="/main/search-post" method="post" >
+                    <!-- Form Submit -->
+                    <div class="form-submit mt-5" style="text-align: center;">
+                        <input type="search" class="form-control" name="searching_post" id="searching_post">
+                        <button class="btn btn-lg btn-success" type="submit" id="search"> SEARCH POST <span class="glyphicon glyphicon-search"></span></button>
+                        <div id="msgSubmit" class="h3 text-center hidden"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
     <div id="displaying-posts" class="box">
         <div class="container">
             <div class="row">
@@ -55,17 +73,15 @@
             </div>		
         </div>
     </div>
-
-
+        
     
-    <div id="back-to-list-div" class="container">
-        <a href=# id="back-to-list" class="glyphicon glyphicon-arrow-left"> BACK TO LIST </a>
-    </div>
+    <!-- BACK TO LIST -->
+    {{!-- <div id="back-to-list-div" class="container">
+        <a href='/main' id="back-to-list" class="glyphicon glyphicon-arrow-left"> BACK TO LIST </a> --}}
+    {{!-- </div> --}}
        
     <div id="writing-posts" class="box" style="display: none;">
-        
-        <!-- BACK TO LIST -->
-        
+ 
         <div class="container">
             <div class="col-md-12 wow animated fadeInRight" data-wow-delay=".2s">
 

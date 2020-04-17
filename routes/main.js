@@ -38,6 +38,7 @@ router.get('/main/read_more',(req, res)=>{
       console.log(a_post);
       // res.send(a_post[0].post_title +" : "+ a_post[0].post_content);  
       res.render('post',{
+        username : doc.user_fullname,
         title:'YouStar',
         post_info : doc.user_posts,
         post : a_post[0]
@@ -69,6 +70,7 @@ router.get('/main/edit-post',(req, res)=>{
       
       console.log("here in findOne")
       res.render('edit',{
+        username : doc.user_fullname,
         title:'YouStar',
         post : a_post[0],
       });
@@ -81,6 +83,66 @@ router.get('/main/edit-post',(req, res)=>{
     });
   }
 });
+
+router.post('/main/search-post', (req, res)=>{
+
+  user_email = req.session.email;
+  if(req.session.email) {
+
+    console.log("main router================= post search-post")
+    // post_id = req.query.post_id;
+    console.log(req.body);
+    User.findOne( {user_email : user_email} ,function(err, doc){
+     
+      posts = doc.user_posts;
+      searched_post = posts.filter(obj => {
+        return obj.post_title == req.body.searching_post;
+      });
+
+      if(searched_post.length == 0){
+        res.render('search_result',{
+          username : doc.user_fullname,
+          title:'YouStar',
+          no_result : " Title not found "
+        });
+      }
+      else{
+        res.render('search_result',{
+          username : doc.user_fullname,
+          title:'YouStar',
+          search_result : searched_post
+        });
+      }
+      console.log(searched_post);
+      // post = { 
+      //           post_title : req.body.post_title,
+      //            post_content : req.body.post_content
+      //         };
+
+      // posts.remove(a_post[0]);
+      // posts.push(post);
+      
+      // User.update({user_email : user_email},{user_posts : posts}, function(err, doc)
+      // {
+      //   console.log(doc);
+      // })
+
+      // console.log("here in findOne")
+      // res.render('main',{
+      //   title:'YouStar',
+      //   post_info : posts,
+      // });
+
+
+    });
+  }
+  else{
+    res.render('login',{
+      title:'YouStar'
+    });
+  }
+
+})
 
 router.post('/main/edit-post', (req, res)=>{
 
@@ -111,6 +173,7 @@ router.post('/main/edit-post', (req, res)=>{
 
       console.log("here in findOne")
       res.render('main',{
+        username : doc.user_fullname,
         title:'YouStar',
         post_info : posts,
       });
@@ -148,6 +211,7 @@ router.get('/main/delete-post',(req, res)=>{
       })
 
       res.render('main',{
+        username : doc.user_fullname,
         title:'YouStar',
         post_info : posts,
       });
