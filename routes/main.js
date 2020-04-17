@@ -27,10 +27,6 @@ router.get('/main/read_more',(req, res)=>{
     // console.log(req.query)
     post_id = req.query.post_id;
     
-    console.log(req.query.post_id);
-    query = {
-                user_posts : {$elemMatch : {_id : post_id}}
-            }
     User.findOne( {user_email : user_email} ,function(err, doc){
       // console.log(doc)
       post_arr = [];
@@ -40,8 +36,12 @@ router.get('/main/read_more',(req, res)=>{
       });
 
       console.log(a_post);
-      res.send(a_post[0].post_title +" : "+ a_post[0].post_content);   
-
+      // res.send(a_post[0].post_title +" : "+ a_post[0].post_content);  
+      res.render('post',{
+        title:'YouStar',
+        post_info : doc.user_posts,
+        post : a_post[0]
+      }); 
     });
 
   }
@@ -50,8 +50,49 @@ router.get('/main/read_more',(req, res)=>{
       title:'YouStar'
     });
   }
+});
 
-})
+router.get('/main/post-delete',(req, res)=>{
+
+  user_email = req.session.email;
+  var test = new User();
+  if(req.session.email) {
+    console.log("main router================= post delete ")
+    post_id = req.query.post_id;
+    
+    console.log(req.query.post_id);
+
+    User.findOne( {user_email : user_email} ,function(err, doc){
+      post_arr = [];
+      posts = doc.user_posts;
+      a_post = posts.filter(obj => {
+        return obj._id == post_id;
+      });
+      
+      console.log(posts);
+      posts.remove(a_post[0]);
+
+      console.log("============================== after removing");
+      console.log(posts);
+      User.update({user_email : user_email},{user_posts : posts}, function(err, doc)
+      {
+        console.log(doc);
+      })
+      // User.update({user})
+      res.render('main',{
+        title:'YouStar',
+        post_info : posts,
+      });
+
+    });
+    // User.updateOne({user_email : user_email}, {$pull : {user_posts : { _id : post_id}}})
+  }
+  else{
+    res.render('login',{
+      title:'YouStar'
+    });
+  }
+});
 
 router.post('/main/add-post',function(req, res, next){
   user_email = req.session.email;

@@ -20,12 +20,12 @@
     </div>
     <div id="add-post-div" class="container">
         {{!-- <input id="add-post-input" value="Add Post" type="submit"> --}}
-        <a href=# id="add-post-a" class=" glyphicon glyphicon-pencil" type="submit"> ADD POST</a>
+        <a href=# id="add-post-a" class=" glyphicon glyphicon-pencil" type="submit" style="display: none;"> ADD POST</a>
         
         <a href='/logout' id="logout-a" class="glyphicon glyphicon-log-out" type="submit"> LOG OUT</a>
     </div>
     
-    <div id="displaying-posts" class="box">
+    <div id="displaying-posts" class="box" style="display: none;">
         <div class="container">
             <div class="row">
                 
@@ -37,7 +37,7 @@
                             <i class="fa fa-instagram fa-3x" aria-hidden="true"></i>
                             
                             <div class="title">
-                                <h3> {{this.post_title}} </h3>
+                                <h4> {{this.post_title}} </h4>
                             </div>
                             
                             <div class="text">
@@ -46,26 +46,24 @@
                             
                             {{!-- <form method="POST" action="/main/read_mroe" > --}}
                                 {{!-- <span name="post_id" style="display: none;"> {{this._id}} </span> --}}
-                                <a class="read_more" href='/main/read_more?post_id={{this._id}}' type="submit"> Read More</a>
+                                <a href='/main/read_more?post_id={{this._id}}' type="submit"> Read More</a>
                             {{!-- </form> --}}
                             
                         </div>
                     </div>	 
                 {{/post_info}}
+                <div class="pagination"> </div>
             </div>		
         </div>
     </div>
 
 
-    
-    <div id="back-to-list-div" class="container">
+    <!-- BACK TO LIST -->    
+    <div id="back-to-list-div" class="container" >
         <a href=# id="back-to-list" class="glyphicon glyphicon-arrow-left"> BACK TO LIST </a>
     </div>
        
     <div id="writing-posts" class="box" style="display: none;">
-        
-        <!-- BACK TO LIST -->
-        
         <div class="container">
             <div class="col-md-12 wow animated fadeInRight" data-wow-delay=".2s">
 
@@ -90,10 +88,36 @@
                           <div class="clearfix"></div>
                       </div>
                   </form>
-                </div>
             </div>
+        </div>
     </div>
         
+    <div id="a_post" class ="box" >
+        <div class="container">
+            <div class="col-md-12 wow animated fadeInRight" data-wow-delay=".2s">
+                      <!-- TITLE -->
+                    <div class="title">
+                       <h2>{{post.post_title}} </h2>
+                    </div>
+
+                      <!-- CONTENT -->
+                    <div class="text">
+                        <span>{{post.post_content}}</span>
+                    </div>
+
+
+                    <div class="text">
+                        <a href=# class='glyphicon glyphicon-edit'> edit </a>
+                    </div>
+
+                    <div class="text">
+                        <a href='/main/post-delete?post_id={{post._id}}' class='glyphicon glyphicon-trash'> delete </a>
+                    </div>
+            </div>
+        </div>            
+    </div>
+
+
     <script type="text/javascript" src="/javascripts/main.js"></script>
         
     </body>
