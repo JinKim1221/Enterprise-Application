@@ -52,15 +52,13 @@ router.get('/main/read_more',(req, res)=>{
   }
 });
 
-router.get('/main/post-delete',(req, res)=>{
+router.get('/main/edit-post',(req, res)=>{
 
   user_email = req.session.email;
-  var test = new User();
   if(req.session.email) {
-    console.log("main router================= post delete ")
+
+    console.log("main router================= post edit ")
     post_id = req.query.post_id;
-    
-    console.log(req.query.post_id);
 
     User.findOne( {user_email : user_email} ,function(err, doc){
       post_arr = [];
@@ -69,23 +67,92 @@ router.get('/main/post-delete',(req, res)=>{
         return obj._id == post_id;
       });
       
-      console.log(posts);
-      posts.remove(a_post[0]);
+      console.log("here in findOne")
+      res.render('edit',{
+        title:'YouStar',
+        post : a_post[0],
+      });
 
-      console.log("============================== after removing");
-      console.log(posts);
+    });
+  }
+  else{
+    res.render('login',{
+      title:'YouStar'
+    });
+  }
+});
+
+router.post('/main/edit-post', (req, res)=>{
+
+  user_email = req.session.email;
+  if(req.session.email) {
+
+    console.log("main router================= post edit=post")
+    post_id = req.query.post_id;
+    console.log(req.body);
+    User.findOne( {user_email : user_email} ,function(err, doc){
+     
+      posts = doc.user_posts;
+      a_post = posts.filter(obj => {
+        return obj._id == post_id;
+      });
+      post = { 
+                post_title : req.body.post_title,
+                 post_content : req.body.post_content
+              };
+
+      posts.remove(a_post[0]);
+      posts.push(post);
+      
       User.update({user_email : user_email},{user_posts : posts}, function(err, doc)
       {
         console.log(doc);
       })
-      // User.update({user})
+
+      console.log("here in findOne")
+      res.render('main',{
+        title:'YouStar',
+        post_info : posts,
+      });
+
+
+    });
+  }
+  else{
+    res.render('login',{
+      title:'YouStar'
+    });
+  }
+
+})
+
+router.get('/main/delete-post',(req, res)=>{
+
+  user_email = req.session.email;
+  if(req.session.email) {
+    console.log("main router================= post delete ")
+    post_id = req.query.post_id;
+
+    User.findOne( {user_email : user_email} ,function(err, doc){
+      post_arr = [];
+      posts = doc.user_posts;
+      a_post = posts.filter(obj => {
+        return obj._id == post_id;
+      });
+      
+      posts.remove(a_post[0]);
+
+      User.update({user_email : user_email},{user_posts : posts}, function(err, doc)
+      {
+        console.log(doc);
+      })
+
       res.render('main',{
         title:'YouStar',
         post_info : posts,
       });
 
     });
-    // User.updateOne({user_email : user_email}, {$pull : {user_posts : { _id : post_id}}})
   }
   else{
     res.render('login',{
@@ -108,29 +175,27 @@ router.post('/main/add-post',function(req, res, next){
     else{
       
       console.log("main router================= main/add-post")     
-      doc.user_posts.push(user_post);
+      posts = doc.user_posts;
+      posts.push(user_post);
         
       return doc.save((err, doc)=>{  
               console.log("You Saved Up Successfully");
               res.render('main',{ 
                                   title:'YouStar',
                                   username : doc.user_fullname,
-                                  post_info : doc.user_posts
+                                  post_info : posts
                                 });
             });
     }
   })
 });
 
-router.get('/main/app-post', function(req, res, next){
+router.get('/main/add-post', function(req, res, next){
 
   sessionEmail = req.session.email;
 
   if(req.session.email) {
-    var userInfo = User.findOne({user_email:sessionEmail}, function(err, resp){
-      console.log(sessionEmail + " is online? ");
-      
-      // console.log("======================== post info" +resp);
+    User.findOne({user_email:sessionEmail}, function(err, resp){
       res.render('main',{
         title:'YouStar'
       });

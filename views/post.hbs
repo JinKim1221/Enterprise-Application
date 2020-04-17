@@ -60,38 +60,11 @@
 
     <!-- BACK TO LIST -->    
     <div id="back-to-list-div" class="container" >
-        <a href=# id="back-to-list" class="glyphicon glyphicon-arrow-left"> BACK TO LIST </a>
+        <a href='/main' id="back-to-list" class="glyphicon glyphicon-arrow-left"> BACK TO LIST </a>
     </div>
        
-    <div id="writing-posts" class="box" style="display: none;">
-        <div class="container">
-            <div class="col-md-12 wow animated fadeInRight" data-wow-delay=".2s">
 
-                  <form action='/main/add-post' class="shake" role="form" method="post" id="Post-Form" name="post-form" data-toggle="validator">
-                      <!-- TITLE -->
-                      <div class="form-group label-floating">
-                        <label class="control-label"> TITLE </label>
-                        <input class="form-control" id="post-title" name='post_title' type="text" required data-error="Please enter your message subject">
-                        <div class="help-block with-errors"></div>
-                      </div>
-                      <!-- CONTENT -->
-                      <div class="form-group label-floating">
-                          <label for="message" class="control-label">BODY</label>
-                          <textarea class="form-control" id="post-content" name='post_content' required data-error="Write your message"></textarea>
-                          <div class="help-block with-errors"></div>
-                      </div>
 
-                      <!-- Form Submit -->
-                      <div class="form-submit mt-5" style="text-align: center;">
-                          <button class="btn btn-common" type="submit" id="post-input"><i class="material-icons mdi mdi-message-outline"></i> UPLOAD POST <span class="glyphicon glyphicon-upload"></span></button>
-                          <div id="msgSubmit" class="h3 text-center hidden"></div>
-                          <div class="clearfix"></div>
-                      </div>
-                  </form>
-            </div>
-        </div>
-    </div>
-        
     <div id="a_post" class ="box" >
         <div class="container">
             <div class="col-md-12 wow animated fadeInRight" data-wow-delay=".2s">
@@ -107,12 +80,13 @@
 
 
                     <div class="text">
-                        <a href=# class='glyphicon glyphicon-edit'> edit </a>
+                        <a href='/main/edit-post?post_id={{post._id}}' class='glyphicon glyphicon-edit'> edit </a>
                     </div>
 
                     <div class="text">
-                        <a href='/main/post-delete?post_id={{post._id}}' class='glyphicon glyphicon-trash'> delete </a>
+                        <a href='/main/delete-post?post_id={{post._id}}' class='glyphicon glyphicon-trash'> delete </a>
                     </div>
+
             </div>
         </div>            
     </div>

@@ -1,0 +1,70 @@
+<html class="wf-sourcesanspro-n6-active wf-sourcesanspro-n4-active wf-playfairdisplay-n7-active wf-active"
+        lang="eng">
+    <header>
+        <meta charset="UTF-8">
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+        
+        <title>
+            {{title}}
+        </title>
+    </head>
+    <body class="home page-template-default page page-id-7 wp-embed-responsive theme-blogxer woocommerce-js header-style-1 footer-style-1 no-sidebar right-sidebar product-grid-view elementor-default elementor-page elementor-page-7 top">
+    
+    <div class="header">
+        <h1> Welcome, <b> {{username}} </b></h1>
+        <p> Record you daily life on YouStar <span class="glyphicon glyphicon-comment"></span></p>
+    </div>
+    <div id="add-post-div" class="container">
+        {{!-- <input id="add-post-input" value="Add Post" type="submit"> --}}
+        <a href=# id="add-post-a" class=" glyphicon glyphicon-pencil" type="submit" style="display: none;"> ADD POST</a>
+        
+        <a href='/logout' id="logout-a" class="glyphicon glyphicon-log-out" type="submit"> LOG OUT</a>
+    </div>
+    
+
+    <!-- BACK TO LIST -->    
+    <div id="back-to-list-div" class="container" >
+        <a href='/main' id="back-to-list" class="glyphicon glyphicon-arrow-left"> BACK TO LIST </a>
+    </div>
+
+    <div id="editing-posts" class="box" >
+        <div class="container">
+            <div class="col-md-12 wow animated fadeInRight" data-wow-delay=".2s">
+
+                  <form action='/main/edit-post?post_id={{post._id}}' class="shake" role="form" method="post" id="EditPost-Form" name="post-form" data-toggle="validator">
+                      <!-- TITLE -->
+                      <div class="form-group label-floating">
+                        <label class="control-label"> TITLE </label>
+                        <input value={{post.post_title}} class="form-control" id="post-title" name='post_title' type="text" required data-error="Please enter your message subject">
+                        <div class="help-block with-errors"></div>
+                      </div>
+                      <!-- CONTENT -->
+                      <div class="form-group label-floating">
+                          <label for="message" class="control-label">BODY</label>
+                          <textarea class="form-control" id="post-content" name='post_content' required data-error="Write your message">{{post.post_content}}</textarea>
+                          <div class="help-block with-errors"></div>
+                      </div>
+
+                      <!-- Form Submit -->
+                      <div class="form-submit mt-5" style="text-align: center;">
+                          <button class="btn btn-common" type="submit" id="post-input"><i class="material-icons mdi mdi-message-outline"></i> EDITED POST <span class="glyphicon glyphicon-upload"></span></button>
+                          <div id="postSubmit" class="h3 text-center hidden"></div>
+                          <div class="clearfix"></div>
+                      </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript" src="/javascripts/main.js"></script>
+        
+    </body>
+</html>
+
+
