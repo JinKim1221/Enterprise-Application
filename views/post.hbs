@@ -24,40 +24,6 @@
         <a href='/main' id="back-to-list" class="glyphicon glyphicon-arrow-left"> BACK TO LIST </a>
         <a href='/logout' id="logout-a" class="glyphicon glyphicon-log-out" type="submit"> LOG OUT</a>
     </div>
-    
-    <div id="displaying-posts" class="box" style="display: none;">
-        <div class="container">
-            <div class="row">
-                
-                {{#post_info}}
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                
-                        <div class="box-part text-center">
-                            
-                            <i class="fa fa-instagram fa-3x" aria-hidden="true"></i>
-                            
-                            <div class="title">
-                                <h4> {{this.post_title}} </h4>
-                            </div>
-                            
-                            <div class="text">
-                                <span>{{this.post_content}}</span>
-                            </div>
-                            
-                            {{!-- <form method="POST" action="/main/read_mroe" > --}}
-                                {{!-- <span name="post_id" style="display: none;"> {{this._id}} </span> --}}
-                                <a href='/main/read_more?post_id={{this._id}}' type="submit"> Read More</a>
-                            {{!-- </form> --}}
-                            
-                        </div>
-                    </div>	 
-                {{/post_info}}
-                <div class="pagination"> </div>
-            </div>		
-        </div>
-    </div>
-
-
 
 
 
@@ -74,7 +40,7 @@
                         <span>{{post.post_content}}</span>
                     </div>
 
-
+                    {{#if post}}
                     <div class="text">
                         <a href='/main/edit-post?post_id={{post._id}}' class='glyphicon glyphicon-edit'> edit </a>
                     </div>
@@ -82,6 +48,7 @@
                     <div class="text">
                         <a href='/main/delete-post?post_id={{post._id}}' class='glyphicon glyphicon-trash'> delete </a>
                     </div>
+                    {{/if }} 
 
             </div>
         </div>            

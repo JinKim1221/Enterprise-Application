@@ -12,15 +12,29 @@ var router = express.Router();
 router.get('/main', function(req, res, next) {
   user_email = req.session.email;
   console.log("main router================= main")
-  User.findOne({user_email : user_email}, function(err, doc){
-      res.render('main',{ title:'YouStar',
-                              username : doc.user_fullname,
-                              post_info : doc.user_posts
-                            });    
-  });
+  User.findOne({user_email:sessionEmail}, function(err, resp){
+    console.log(sessionEmail + " is online? ");
+    User.find({}, (err, resp_)=>{
+      allPosts = [];
+      for(let i=0; i<resp_.length; i++){
+        for(let j=0; j<resp_[i].user_posts.length; j++){
+          allPosts.push(resp_[i].user_posts[j]);
+        }
+      }      
+      console.log(allPosts);
+
+      res.render('main',{
+        title:'YouStar',
+        username : resp.user_fullname,
+        post_info : allPosts
+      });
+    })
+  })
+  
+
 });
 
-router.get('/main/read_more',(req, res)=>{
+router.get('/main/read_more/private',(req, res)=>{
   user_email = req.session.email;
   if(req.session.email) {
     console.log("main router================= post info")
@@ -53,6 +67,40 @@ router.get('/main/read_more',(req, res)=>{
   }
 });
 
+
+router.get('/main/read_more/public',(req, res)=>{
+  user_email = req.session.email;
+  if(req.session.email) {
+    console.log("main router================= post info")
+    // console.log(req.query)
+    post_id = req.query.post_id;
+    
+    User.findOne( {user_email : user_email} ,function(err, doc){
+      // console.log(doc)
+      post_arr = [];
+      posts = doc.user_posts;
+      a_post = posts.filter(obj => {
+        return obj._id == post_id;
+      });
+
+      console.log(a_post);
+      // res.send(a_post[0].post_title +" : "+ a_post[0].post_content);  
+      res.render('post',{
+        username : doc.user_fullname,
+        title:'YouStar',
+        post : a_post[0]
+      }); 
+    });
+
+  }
+  else{
+    res.render('login',{
+      title:'YouStar'
+    });
+  }
+});
+
+
 router.get('/main/edit-post',(req, res)=>{
 
   user_email = req.session.email;
@@ -64,7 +112,7 @@ router.get('/main/edit-post',(req, res)=>{
     User.findOne( {user_email : user_email} ,function(err, doc){
       post_arr = [];
       posts = doc.user_posts;
-      a_post = posts.filter(obj => {
+      post = posts.filter(obj => {
         return obj._id == post_id;
       });
       
@@ -72,9 +120,8 @@ router.get('/main/edit-post',(req, res)=>{
       res.render('edit',{
         username : doc.user_fullname,
         title:'YouStar',
-        post : a_post[0],
+        post : post[0],
       });
-
     });
   }
   else{
@@ -83,6 +130,33 @@ router.get('/main/edit-post',(req, res)=>{
     });
   }
 });
+
+router.get('/ownBlog', (req, res)=>{
+  console.log("hello, this is  .get(ownblog)")
+  user_email = req.session.email;
+  if(req.session.email) {
+    User.findOne( {user_email : user_email} ,function(err, doc){
+      // console.log(doc)
+      
+      posts = doc.user_posts;
+      // a_post = posts.filter(obj => {
+      //   return obj._id == post_id;
+      // });
+
+      // console.log(a_post);
+      // res.send(a_post[0].post_title +" : "+ a_post[0].post_content);  
+      res.render('ownBlog',{
+        username : doc.user_fullname,
+        title:'YouStar',
+        post_info : doc.user_posts,
+        // post : a_post[0]
+      }); 
+    });
+  }
+  else{
+    res.render('login')
+  }  
+})
 
 router.post('/main/search-post', (req, res)=>{
 
@@ -114,24 +188,6 @@ router.post('/main/search-post', (req, res)=>{
         });
       }
       console.log(searched_post);
-      // post = { 
-      //           post_title : req.body.post_title,
-      //            post_content : req.body.post_content
-      //         };
-
-      // posts.remove(a_post[0]);
-      // posts.push(post);
-      
-      // User.update({user_email : user_email},{user_posts : posts}, function(err, doc)
-      // {
-      //   console.log(doc);
-      // })
-
-      // console.log("here in findOne")
-      // res.render('main',{
-      //   title:'YouStar',
-      //   post_info : posts,
-      // });
 
 
     });
@@ -162,7 +218,9 @@ router.post('/main/edit-post', (req, res)=>{
                 post_title : req.body.post_title,
                  post_content : req.body.post_content
               };
-
+      
+      console.log(post);
+      console.log(post);
       posts.remove(a_post[0]);
       posts.push(post);
       
@@ -172,13 +230,8 @@ router.post('/main/edit-post', (req, res)=>{
       })
 
       console.log("here in findOne")
-      res.render('main',{
-        username : doc.user_fullname,
-        title:'YouStar',
-        post_info : posts,
-      });
-
-
+      res.redirect('/main');
+      
     });
   }
   else{
@@ -244,11 +297,7 @@ router.post('/main/add-post',function(req, res, next){
         
       return doc.save((err, doc)=>{  
               console.log("You Saved Up Successfully");
-              res.render('main',{ 
-                                  title:'YouStar',
-                                  username : doc.user_fullname,
-                                  post_info : posts
-                                });
+              res.redirect('/main');
             });
     }
   })

@@ -52,12 +52,24 @@ router.get('/main', function(req, res, next){
   if(req.session.email) {
     var userInfo = User.findOne({user_email:sessionEmail}, function(err, resp){
       console.log(sessionEmail + " is online? ");
+      User.find({}, (err, resp_)=>{
+        allPosts = [];
+        for(let i=0; i<resp_.length; i++){
+          for(let j=0; j<resp_[i].user_posts.length; j++){
+            allPosts.push(resp_[i].user_posts[j]);
+          }
+        }
+
+        
+        console.log(allPosts);
+
+        res.render('main',{
+          title:'YouStar',
+          username : resp.user_fullname,
+          post_info : allPosts
+        });
+      })
       
-      res.render('main',{
-        title:'YouStar',
-        username : resp.user_fullname,
-        post_info : resp.user_posts
-      });
       
     });
   }else{

@@ -25,11 +25,14 @@ font-size: 30px;
     float: right;
 }
 
-
 #logout-a{
     margin-top: 5%;
 
     float: left;
+}
+#ownBlog{
+    margin-top: 5%;
+    margin-left : 25%;
 }
 
 #post-content{
@@ -52,10 +55,12 @@ font-size: 30px;
     font-size: 15px;
 } 
  
-/* #search{
-    padding: 2%;
-    font-size: 15px;
-}  */
+#searching_post{
+    width: 50%;
+    padding: 1%;
+    border: 1px solid dimgrey;
+    border-radius: 5px; 
+} 
 
 .control-label{
     font-size: 18px;

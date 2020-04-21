@@ -21,8 +21,14 @@
     <div id="add-post-div" class="container">
         {{!-- <input id="add-post-input" value="Add Post" type="submit"> --}}
         <a href=# id="add-post-a" class=" glyphicon glyphicon-pencil" type="submit"> ADD POST</a>
-        <a href='/main' id="back-to-list" class="glyphicon glyphicon-arrow-left" style="display: none;"> BACK TO LIST </a>
-        <a href='/ownBlog' id="ownBlog" class="glyphicon glyphicon-list-alt" type="submit"> YOUR BLOGS </a>
+        <style>
+            #back-to-list{
+                margin-top: 5%;
+        
+            }
+        </style>
+        <a href='/main' id="back-to-list" class="glyphicon glyphicon-arrow-left" > BACK TO LIST </a>
+        
         <a href='/logout' id="logout-a" class="glyphicon glyphicon-log-out" type="submit"> LOG OUT</a>
     </div>
 
@@ -61,7 +67,7 @@
                             
                             {{!-- <form method="POST" action="/main/read_mroe" > --}}
                                 {{!-- <span name="post_id" style="display: none;"> {{this._id}} </span> --}}
-                                <a class="read_more" href='/main/read_more/public?post_id={{this._id}}' type="submit"> Read More</a>
+                                <a class="read_more" href='/main/read_more/private?post_id={{this._id}}' type="submit"> Read More</a>
                             {{!-- </form> --}}
                             
                         </div>

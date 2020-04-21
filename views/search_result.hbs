@@ -25,19 +25,20 @@
        
         <a href='/logout' id="logout-a" class="glyphicon glyphicon-log-out" type="submit"> LOG OUT</a>
     </div>
-
-    <div class="box">
-        <form action="/main/search-post" method="post" id="search_post">
-            <!-- Form Submit -->
-            <div class="form-submit mt-5" style="text-align: center;">
-                <input name="searching_post" id="searching_post">
-                <button class="btn btn-common" type="submit" id="search"> SEARCH POST <span class="glyphicon glyphicon-search"></span></button>
-                <div id="msgSubmit" class="h3 text-center hidden"></div>
-                <div class="clearfix"></div>
-            </div>
-        </form>
+    
+    <div class="box" id="search_post">
+        <div class="container"> 
+            <form class="card card-sm" action="/main/search-post" method="post" >
+                <div class="form-submit mt-5" style="text-align: center;">
+                    <input class=" form-control-lg" type="search"  name="searching_post" id="searching_post">
+                    <button class="btn btn-md btn-success" type="submit" id="search"> SEARCH POST <span class="glyphicon glyphicon-search"></span></button>
+                    <div id="msgSubmit" class="h3 text-center hidden"></div>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </div>
     </div>
-        
+
     <div id="displaying-posts" class="box">
         <div class="container">
             <div class="row">   
