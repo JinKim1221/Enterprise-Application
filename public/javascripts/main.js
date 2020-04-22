@@ -5,6 +5,9 @@ var post_input = document.getElementById('post-input');
 var back_to_list = document.getElementById('back-to-list');
 var a_post = document.getElementById('a_post');
 var search_post = document.getElementById('search_post');
+var favourite = document.getElementsByClassName('favourite');
+var deleteFav = document.getElementsByClassName('deleteFav');
+var toast = document.getElementById('toast');
 
 add_post_a.addEventListener('click', function(e){
     displaying_posts.style.display='none';
@@ -27,3 +30,18 @@ back_to_list.addEventListener('click', function(e){
     displaying_posts.style.display='block';
     add_post_a.style.display='block';  
 });
+
+for(let i=0; i<favourite.length; i++){
+    favourite[i].addEventListener('click',()=>{
+        // console.log("testtttt");
+        favourite[i].className += " active";
+        alert("this post was added as your favourite post")
+    })
+}
+
+for(let i=0; i<deleteFav.length; i++){
+    deleteFav[i].addEventListener('click',()=>{
+        // console.log("testtttt");
+        alert("this post will be deleted permenantly")
+    })
+}

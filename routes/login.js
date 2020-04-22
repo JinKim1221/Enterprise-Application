@@ -61,7 +61,7 @@ router.get('/main', function(req, res, next){
         }
 
         
-        console.log(allPosts);
+        // console.log(allPosts);
 
         res.render('main',{
           title:'YouStar',

@@ -22,6 +22,10 @@ var userSchema = new mongoose.Schema({
         post_title : String,
         post_content : String,
     }],
+    user_favourite:[{
+        post_title : String,
+        post_content : String,
+    }],
     register_time : {
         type:Date, 
         default:Date.now

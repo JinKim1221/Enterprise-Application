@@ -23,8 +23,13 @@
         <a href=# id="add-post-a" class=" glyphicon glyphicon-pencil" type="submit"> ADD POST</a>
         <a href='/main' id="back-to-list" class="glyphicon glyphicon-arrow-left" style="display: none;"> BACK TO LIST </a>
         <a href='/ownBlog' id="ownBlog" class="glyphicon glyphicon-list-alt" type="submit"> YOUR BLOGS </a>
+        
+        <a href='/main/favourite' id="favourite-a" class=" glyphicon glyphicon-heart " type="submit"> FAVOURITE</a>
         <a href='/logout' id="logout-a" class="glyphicon glyphicon-log-out" type="submit"> LOG OUT</a>
     </div>
+
+
+
 
     <div class="box" id="search_post">
         <div class="container"> 
@@ -49,15 +54,19 @@
                 
                         <div class="box-part text-center">
                             
-                            <i class="fa fa-instagram fa-3x" aria-hidden="true"></i>
-                            
+
+                            <div style="text-align: right;">
+                                <a href='/main/add-favourite?post_id={{this._id}}' class="favourite glyphicon glyphicon-heart-empty" aria-hidden="true"></a>
+                            </div>
+
                             <div class="title">
                                 <h3> {{this.post_title}} </h3>
                             </div>
-                            
+
                             <div class="text">
                                 <span>{{this.post_content}}</span>
                             </div>
+                            
                             
                             {{!-- <form method="POST" action="/main/read_mroe" > --}}
                                 {{!-- <span name="post_id" style="display: none;"> {{this._id}} </span> --}}
@@ -71,6 +80,14 @@
         </div>
     </div>
 
+    <div id="toast" class="toast" style="display: none;">
+        <div class="toast-header">
+            Alarm
+        </div>
+        <div class="toast-body">
+            Post saved as favourite
+        </div>
+    </div>
        
     <div id="writing-posts" class="box" style="display: none;">
  

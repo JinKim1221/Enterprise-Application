@@ -21,7 +21,6 @@ router.get('/main', function(req, res, next) {
           allPosts.push(resp_[i].user_posts[j]);
         }
       }      
-      console.log(allPosts);
 
       res.render('main',{
         title:'YouStar',
@@ -30,9 +29,112 @@ router.get('/main', function(req, res, next) {
       });
     })
   })
-  
-
 });
+
+router.get('/main/favourite', (req, res)=>{
+  user_email = req.session.email;
+
+  if(req.session.email) {
+    console.log("main router================= post info")
+    // console.log(req.query)
+    // post_id = req.query.post_id;
+    
+    User.findOne( {user_email : user_email} ,function(err, doc){
+      res.render('favourite',{
+        username : doc.user_fullname,
+        title:'YouStar',
+        post_info : doc.user_favourite,
+      }); 
+    });
+  }
+  else{
+    res.render('login',{
+      title:'YouStar'
+    });
+  }
+})
+
+favourite = [];
+router.get('/main/add-favourite', (req, res)=>{
+  user_email = req.session.email;
+  if(req.session.email) {
+    post_id = req.query.post_id;
+    User.findOne({user_email:sessionEmail}, function(err, resp){
+      User.find( {} ,function(err, doc){
+        // console.log(doc)
+        allPosts = [];
+        for(let i=0; i<doc.length; i++){
+          for(let j=0; j<doc[i].user_posts.length; j++){
+            allPosts.push(doc[i].user_posts[j]);
+          }
+        }  
+        a_post = allPosts.filter(obj => {
+          return obj._id == post_id;
+        });
+        
+        favourites = resp.user_favourite;
+   
+        favourite_exists = favourites.some((test)=>{
+          if(test.id == post_id){
+            return true;
+          }
+          else{
+            return false;
+          }
+        })
+        if(!favourite_exists){
+          resp.user_favourite.push(a_post[0]);
+        }      
+
+        return resp.save((err, doc)=>{  
+          console.log("You Saved Up Successfully");
+          res.redirect('/main');
+        });
+
+      });
+    });
+  }
+  else{
+    res.render('login',{
+      title:'YouStar'
+    });
+  }
+})
+
+router.get('/main/remove-favourite', (req, res)=>{
+  user_email = req.session.email;
+  if(req.session.email) {
+    post_id = req.query.post_id;
+    User.findOne({user_email:user_email}, function(err, resp){
+ 
+        allPosts = resp.user_favourite;
+
+        a_post = allPosts.filter(obj => {
+          return obj._id == post_id;
+        });
+        console.log(a_post[0]);
+
+        allPosts.remove(a_post[0]);
+        
+        User.update({user_email : user_email},{user_favourite : allPosts}, (err, doc)=>{})
+        res.render('favourite',{
+          username : resp.user_fullname,
+          title:'YouStar',
+          post_info : resp.user_favourite,
+        }); 
+        
+    });
+  }
+  else{
+    res.render('login',{
+      title:'YouStar'
+    });
+  }
+})
+
+
+
+
 
 router.get('/main/read_more/private',(req, res)=>{
   user_email = req.session.email;
@@ -53,6 +155,7 @@ router.get('/main/read_more/private',(req, res)=>{
       // res.send(a_post[0].post_title +" : "+ a_post[0].post_content);  
       res.render('post',{
         username : doc.user_fullname,
+        private : 'private',
         title:'YouStar',
         post_info : doc.user_posts,
         post : a_post[0]
@@ -71,27 +174,31 @@ router.get('/main/read_more/private',(req, res)=>{
 router.get('/main/read_more/public',(req, res)=>{
   user_email = req.session.email;
   if(req.session.email) {
-    console.log("main router================= post info")
-    // console.log(req.query)
+
     post_id = req.query.post_id;
-    
-    User.findOne( {user_email : user_email} ,function(err, doc){
-      // console.log(doc)
-      post_arr = [];
-      posts = doc.user_posts;
-      a_post = posts.filter(obj => {
-        return obj._id == post_id;
+    User.findOne({user_email:sessionEmail}, function(err, resp){
+      User.find( {} ,function(err, doc){
+        // console.log(doc)
+        allPosts = [];
+        for(let i=0; i<doc.length; i++){
+          for(let j=0; j<doc[i].user_posts.length; j++){
+            allPosts.push(doc[i].user_posts[j]);
+          }
+        }  
+
+        a_post = allPosts.filter(obj => {
+          return obj._id == post_id;
+        });
+
+        console.log("===========================read more from public "+ a_post);
+        
+        res.render('post',{
+          username : doc.user_fullname,
+          title:'YouStar',
+          post : a_post[0]
+        }); 
       });
-
-      console.log(a_post);
-      // res.send(a_post[0].post_title +" : "+ a_post[0].post_content);  
-      res.render('post',{
-        username : doc.user_fullname,
-        title:'YouStar',
-        post : a_post[0]
-      }); 
     });
-
   }
   else{
     res.render('login',{
@@ -136,20 +243,14 @@ router.get('/ownBlog', (req, res)=>{
   user_email = req.session.email;
   if(req.session.email) {
     User.findOne( {user_email : user_email} ,function(err, doc){
-      // console.log(doc)
-      
-      posts = doc.user_posts;
-      // a_post = posts.filter(obj => {
-      //   return obj._id == post_id;
-      // });
 
-      // console.log(a_post);
-      // res.send(a_post[0].post_title +" : "+ a_post[0].post_content);  
+      posts = doc.user_posts;
+      
       res.render('ownBlog',{
         username : doc.user_fullname,
         title:'YouStar',
         post_info : doc.user_posts,
-        // post : a_post[0]
+        
       }); 
     });
   }

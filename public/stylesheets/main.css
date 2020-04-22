@@ -41,6 +41,7 @@ font-size: 30px;
     overflow-y: auto;
 }
 
+
 .form-group {
     position: relative
 }
@@ -61,6 +62,13 @@ font-size: 30px;
     border: 1px solid dimgrey;
     border-radius: 5px; 
 } 
+
+.favourite.clicked::before{
+    color: black;
+}
+
+
+
 
 .control-label{
     font-size: 18px;
